@@ -1,0 +1,14 @@
+.modalHeader {
+    position: relative;
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.modalHeaderText {
+    position: relative;
+}
+
+.modalHeaderClose {
+    position: absolute;
+    right: 0;
+}

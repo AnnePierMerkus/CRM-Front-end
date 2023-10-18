@@ -1,0 +1,83 @@
+/* CSS Module for styling FrontPage.tsx */
+
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    min-height: 100vh; /* Minimum height to fill the viewport */
+    width: 100vw;
+    background-color: #f0f0f0; /* Background color for the entire screen */
+}
+
+.leftPanel {
+    background: linear-gradient(to bottom, #DAA520, #007BFF); /* Gradient from brown-gold to deep blue */
+    color: white;
+    padding: 40px;
+    text-align: center;
+    flex: 1; /* Takes up 50% of the container */
+    position: relative; /* Position relative for absolute element */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+.rightPanel {
+    background-color: white; /* Solid color for the right panel */
+    padding: 40px;
+    text-align: center;
+    flex: 1; /* Takes up 50% of the container */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.logo {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.welcomeText {
+    font-size: 18px;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formGroup {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.input {
+    width: 100%; /* Occupy 100% of the parent's width */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.loginButton {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.loginButton:hover {
+    background-color: #0056b3;
+}

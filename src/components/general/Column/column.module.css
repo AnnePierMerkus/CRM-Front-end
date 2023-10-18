@@ -1,0 +1,38 @@
+.column {
+    padding: 0 15px;
+}
+
+.columnAuto {
+    flex: 1 0 0;
+    width: auto;
+}
+
+.column25 {
+    flex: 0 0 auto;
+    width: 25%;
+}
+
+.column33 {
+    flex: 0 0 auto;
+    width: 33.33333333%;
+}
+
+.column50 {
+    flex: 0 0 auto;
+    width: 50%;
+}
+
+.column66 {
+    flex: 0 0 auto;
+    width: 66.66666667%;
+}
+
+.column75 {
+    flex: 0 0 auto;
+    width: 75%;
+}
+
+.column100 {
+    flex: 0 0 auto;
+    width: 100%;
+}

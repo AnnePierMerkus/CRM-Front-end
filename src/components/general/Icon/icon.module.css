@@ -1,0 +1,39 @@
+.icon {
+}
+
+.icon.small {
+    height: 16px;
+    width: auto;
+}
+
+.icon.normal {
+    height: 20px;
+    width: auto;
+}
+
+.icon.big {
+    height: 24px;
+    width: auto;
+
+}
+
+.iconButton {
+    border: none;
+    background: transparent;
+}
+
+.iconButton:hover {
+    cursor: pointer;
+}
+
+.iconButton.small {
+    height: 16px;
+}
+
+.iconButton.normal {
+    height: 20px;
+}
+
+.iconButton.big {
+    height: 24px;
+}
