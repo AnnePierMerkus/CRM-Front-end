@@ -4,7 +4,7 @@ import {DataTableColumnType} from "@/types/data-table-column-type";
 import styles from "./dataTable.module.css";
 import {ReactNode, useCallback, useMemo, useState} from "react";
 import Input from "@/components/general/Input/Input";
-import { Button } from 'antd';
+import {Button, Popconfirm} from 'antd';
 import {ModalHeader} from "@/components/general/Modal/ModalHeader/ModalHeader";
 import {ModalBody} from "@/components/general/Modal/ModalBody/ModalBody";
 import {Modal} from "@/components/general/Modal/Modal";
@@ -16,7 +16,7 @@ interface PropsType {
     form?: ReactNode,
     add?: boolean,
     edit?: boolean,
-    delete?: boolean,
+    canDelete?: boolean,
 }
 
 interface DataTableSort {
@@ -24,7 +24,7 @@ interface DataTableSort {
     type: "ASC" | "DESC"
 }
 
-export default function DataTable({columns, rows, size, add, form}: PropsType) {
+export default function DataTable({columns, rows, size, add, form, edit, canDelete}: PropsType) {
     const [search, setSearch] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [sort, setSort] = useState<DataTableSort>();
@@ -134,6 +134,9 @@ export default function DataTable({columns, rows, size, add, form}: PropsType) {
                             {column.title} {sort && sort.name === column.name ? (sort.type === 'ASC' ? '↑' : '↓') : ''}
                         </th>
                     ))}
+                    {
+                        edit || canDelete ? <th className={styles.tableHeadColumn}></th> : null
+                    }
                 </tr>
                 </thead>
                 <tbody className={styles.tableBody}>
@@ -142,13 +145,27 @@ export default function DataTable({columns, rows, size, add, form}: PropsType) {
                         {columns.map((column, cI) => {
                             return <td key={cI} className={styles.tableBodyColumn}>{row[column.name]}</td>
                         })}
+                        {
+                            edit || canDelete ? <td className={`${styles.tableBodyColumn} ${styles.tableBodyColumnActions}`}>
+                                {
+                                    edit ? <a href="#" onClick={() => setShowModal(true)}>edit</a> : null
+                                }
+                                {
+                                    canDelete ?
+                                        <Popconfirm title="Are you sure？" okText="Yes" cancelText="No">
+                                            <a href="#">delete</a>
+                                        </Popconfirm>
+                                        : null
+                                }
+                            </td> : null
+                        }
                     </tr>
                 })}
                 </tbody>
             </table>
             {pagination()}
         </div>
-        {add ? modal() : ''}
+        {add || edit ? modal() : ''}
     </>
 
 }

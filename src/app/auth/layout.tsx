@@ -1,23 +1,29 @@
-import styles from "./style.module.css";
-import Image from "next/image";
-import React from "react";
+import React from 'react';
+import styles from './style.module.css';
 
 export default function AuthLayout({
     children,
 }: {
 children: React.ReactNode
 }) {
-    return <div className={styles.loginContainer}>
-    <div className={styles.leftPanel}>
-        <Image src="/logo.png" alt={"User logo"} width={250} height={250}/>
-        <p className={styles.welcomeText}>
-            Health spa & wellness center<br />
-            fully equipped for therapeutic and recreational spa & massage treatment
-        </p>
+    return (
+        <div className={styles.loginPage}>
+            <div className={styles.backgroundPanel}>
+                <div className={styles.leftBackground}></div>
+                <div className={styles.rightBackground}></div>
+            </div>
+            <div className={styles.centeredPanel}>
+                <div className={styles.leftCenterPanel}>
+                    <img src="/logo.png" alt="Company-Logo" className={styles.logo} />
+                    <p className={styles.text}>
+                        Health spa & wellness center, fully equipped for therapeutic and recreational spa & massage treatment
+                    </p>
+                </div>
 
-    </div>
-    <div className={styles.rightPanel}>
-        {children}
-    </div>
-</div>
+                <div className={styles.rightCenterPanel}>
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
 }

@@ -1,3 +1,5 @@
+'use client';
+
 import Column from "@/components/general/Column/Column";
 import Card from "@/components/general/Card/Card";
 import Row from "@/components/general/Row/Row";

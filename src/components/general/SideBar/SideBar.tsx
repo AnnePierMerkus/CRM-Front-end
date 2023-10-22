@@ -12,7 +12,7 @@ export default function SideBar() {
 
     return <div className={styles.sidebar}>
         <div className={styles.logoWrapper}>
-            <Image src="/logo.svg" alt="logo" width="200" height="70"/>
+            <Image src="/logo.png" alt="logo" width="100" height="100"/>
         </div>
         <div className={styles.groups}>
             {
