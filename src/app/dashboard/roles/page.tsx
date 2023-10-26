@@ -2,7 +2,7 @@
 
 import {DataTableColumnType} from "@/types/data-table-column-type";
 import DataTable from "@/components/general/DataTable/DataTable";
-import {MassageTypeBaseForm} from "@/components/massage-types/MassageTypeBaseForm";
+import {RolesAndPermissionBaseForm} from "@/components/roles-and-permissions/RolesAndPermissionBaseForm";
 import { Button } from 'antd';
 import {RolesAndPermissionType} from "@/types/roles-and-permission-type";
 
@@ -38,7 +38,7 @@ export default function Page() {
     })
 
     const form = () => {
-        return <MassageTypeBaseForm />
+        return <RolesAndPermissionBaseForm />
     }
 
 

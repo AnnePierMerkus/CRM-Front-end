@@ -13,7 +13,7 @@ export default function Employees() {
             ID: i,
             firstname: `firstname ${i}`,
             lastname: `lastname ${i}`,
-            phoneNumber: "061234567" + i
+            phoneNumber: "+31 6 45069892"
         }
     })
     return <Row>
