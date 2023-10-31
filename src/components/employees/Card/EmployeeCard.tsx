@@ -30,7 +30,7 @@ export function EmployeeCard({ firstname, lastname, ID, phoneNumber }: EmployeeT
         >
             <Meta
                 avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={firstname + " " + lastname}
+                title={<a href={`employees/${firstname}`}>{firstname + " " + lastname}</a>}
                 // Add a link to open WhatsApp with the phone number
                 description={<a href="#" onClick={openWhatsApp}>{phoneNumber}</a>}
             />
