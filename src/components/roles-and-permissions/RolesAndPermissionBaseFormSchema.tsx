@@ -5,15 +5,21 @@ import SimpleSchema from "simpl-schema";
 
 
 const schema = new SimpleSchema({
-    name: { type: String },
-    employees: {type: String},
-    customers: {type: String},
-    select: {
+    name: {type: String},
+    employees: {
         type: String,
-        allowedValues: ["flightCard", "accommodationCard"],
+        allowedValues: ["None", "View Only", "View and Edit", "Full Access"],
         defaultValue: "None"
     },
-    date: { type: Date },
+    customers: {
+        type: String,
+        allowedValues: ["None", "View Only", "View and Edit", "Full Access"],
+        defaultValue: "None"},
+    roles: {
+        type: String,
+        allowedValues: ["None", "View Only", "View and Edit", "Full Access"],
+        defaultValue: "None"
+    },
 });
 
 export const bridge = new SimpleSchema2Bridge({ schema });

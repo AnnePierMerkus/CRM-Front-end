@@ -4,19 +4,25 @@ import {DataTableColumnType} from "@/types/data-table-column-type";
 import styles from "./dataTable.module.css";
 import {ReactNode, useCallback, useMemo, useState} from "react";
 import Input from "@/components/general/Input/Input";
-import {Button, Popconfirm} from 'antd';
+import {Button, Popconfirm, DatePicker} from 'antd';
 import {ModalHeader} from "@/components/general/Modal/ModalHeader/ModalHeader";
 import {ModalBody} from "@/components/general/Modal/ModalBody/ModalBody";
 import {Modal} from "@/components/general/Modal/Modal";
+import moment from "moment";
 
 interface PropsType {
     columns: DataTableColumnType[],
     rows: any[],
     size: number,
     form?: ReactNode,
-    add?: boolean,
-    edit?: boolean,
-    canDelete?: boolean,
+    addBtn?: ReactNode,
+    editAction?: (id: string) => void,
+    deleteAction?: (id: string) => void,
+    add?: boolean, // todo: delete
+    edit?: boolean, // todo: delete
+    canDelete?: boolean, // todo: delete
+    selectDate?: boolean,
+    handleDateSelect?: (date: string, dateString: string) => void;
 }
 
 interface DataTableSort {
@@ -24,7 +30,7 @@ interface DataTableSort {
     type: "ASC" | "DESC"
 }
 
-export default function DataTable({columns, rows, size, add, form, edit, canDelete}: PropsType) {
+export default function DataTable({columns, rows, size, add, form, edit, canDelete, selectDate, handleDateSelect, addBtn, editAction, deleteAction}: PropsType) {
     const [search, setSearch] = useState<string>("");
     const [page, setPage] = useState<number>(1);
     const [sort, setSort] = useState<DataTableSort>();
@@ -120,11 +126,20 @@ export default function DataTable({columns, rows, size, add, form, edit, canDele
         </Modal>
     }, [showModal])
 
+
+
     return <>
         <div className={styles.wrapper}>
             <div className={styles.header}>
                 <Input className={styles.search} onChange={(event) => setSearch(event.target.value)}/>
                 {add ? <Button type={"primary"} onClick={() => setShowModal(true)}>Add</Button> : ''}
+                {addBtn ?? undefined}
+                {selectDate && handleDateSelect ? <DatePicker defaultValue={moment()} onChange={(date, dateString) => {
+                    handleDateSelect(dateString, dateString);
+                }}
+                    /> : ''}
+                {/*{selectDate ? <Button type={"primary"} onClick={() => setShowModal(true)}>Add</Button> : ''}*/}
+
             </div>
             <table className={styles.table}>
                 <thead className={styles.tableHead}>
@@ -135,7 +150,7 @@ export default function DataTable({columns, rows, size, add, form, edit, canDele
                         </th>
                     ))}
                     {
-                        edit || canDelete ? <th className={styles.tableHeadColumn}></th> : null
+                        edit || canDelete || editAction || deleteAction ? <th className={styles.tableHeadColumn}></th> : null
                     }
                 </tr>
                 </thead>
@@ -146,9 +161,18 @@ export default function DataTable({columns, rows, size, add, form, edit, canDele
                             return <td key={cI} className={styles.tableBodyColumn}>{row[column.name]}</td>
                         })}
                         {
-                            edit || canDelete ? <td className={`${styles.tableBodyColumn} ${styles.tableBodyColumnActions}`}>
+                            edit || canDelete || editAction || deleteAction ? <td className={`${styles.tableBodyColumn} ${styles.tableBodyColumnActions}`}>
                                 {
                                     edit ? <a href="#" onClick={() => setShowModal(true)}>edit</a> : null
+                                }
+                                {
+                                    editAction ? <a href="#" onClick={() => editAction(row.ID)}>edit</a> : null
+                                }
+                                {
+                                    deleteAction ? <Popconfirm title="Are you sure？" okText="Yes" cancelText="No"
+                                                               onConfirm={() => deleteAction(row.ID)}>
+                                        <a href="#">delete</a>
+                                    </Popconfirm> : null
                                 }
                                 {
                                     canDelete ?

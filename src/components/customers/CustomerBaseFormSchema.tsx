@@ -3,6 +3,11 @@
 import SimpleSchema2Bridge from 'uniforms-bridge-simple-schema-2';
 import SimpleSchema from "simpl-schema";
 
+export type CustomerFormType = {
+    firstName: String,
+    lastName: String,
+    phoneNumber: String,
+}
 
 const schema = new SimpleSchema({
     firstName: { type: String },
