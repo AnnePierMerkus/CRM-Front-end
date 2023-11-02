@@ -38,6 +38,6 @@ export default function Page() {
 
 
     return <>
-        <DataTable columns={columns} rows={rows} size={10} form={form()} add={true} edit={true} canDelete={true}/>
+        <DataTable columns={columns} rows={rows} size={15} form={form()} add={true} edit={true} canDelete={true}/>
     </>
 }

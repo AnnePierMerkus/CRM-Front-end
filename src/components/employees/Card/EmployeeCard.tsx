@@ -5,7 +5,7 @@ import Meta from "antd/es/card/Meta";
 import { EmployeeType } from "@/types/employeeType";
 import styles from './employeeCard.module.css';
 
-export function EmployeeCard({ firstname, lastname, ID, phoneNumber }: EmployeeType) {
+export function EmployeeCard({ firstName, lastName, ID, phoneNumber }: EmployeeType) {
     // Define a function to open WhatsApp with the phone number
     const openWhatsApp = () => {
         const phone = encodeURIComponent(phoneNumber); // Encode the phone number
@@ -30,7 +30,7 @@ export function EmployeeCard({ firstname, lastname, ID, phoneNumber }: EmployeeT
         >
             <Meta
                 avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                title={<a href={`employees/${firstname}`}>{firstname + " " + lastname}</a>}
+                title={<a href={`employees/${ID}`}>{firstName + " " + lastName}</a>}
                 // Add a link to open WhatsApp with the phone number
                 description={<a href="#" onClick={openWhatsApp}>{phoneNumber}</a>}
             />

@@ -1,28 +1,26 @@
 'use client';
 
-import {EmployeeType} from "@/types/employeeType";
-import Row from "@/components/general/Row/Row";
-import {EmployeeCard} from "@/components/employees/Card/EmployeeCard";
-import Column from "@/components/general/Column/Column";
-
-export default function Employees() {
+import {useState} from 'react';
+import Breadcrumb from "@/components/general/Breadcrumb/Breadcrumb";
+import Employee from '@/components/employees/employee/Employee';
 
 
-    const employees: EmployeeType[] = [...Array(6)].map((x, i) => {
-        return {
-            ID: i,
-            firstname: `lastname ${i}`,
-            lastname: `lastname ${i}`,
-            phoneNumber: "+31 6 45069892"
+export default function Page() {
+    const [breadcrumbPath, setBreadcrumbPath] = useState(['Employees', 'EmployeeName']);
+
+    const handleNavigate = (index: number) => { 
+        if (index === 0) {
+            window.history.back();
         }
-    })
-    return <Row>
-        {
-            employees.map((employee, index) => {
-                return <Column size={"1/4"} key={index}>
-                    <EmployeeCard {...employee} />
-                </Column>
-            })
-        }
-    </Row>
+      };
+
+    return (
+        <>
+            <div>
+                <Breadcrumb path={breadcrumbPath} onNavigate={handleNavigate} />
+                {}
+            </div>
+            <Employee></Employee>
+        </>
+    );
 }
