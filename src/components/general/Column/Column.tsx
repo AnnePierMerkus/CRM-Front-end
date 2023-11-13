@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./column.module.css";
 
 interface ColumnType {
-    children: React.ReactNode,
+    children?: React.ReactNode,
     size: "1/4" | "1/3" | "1/2" | "2/3" | "3/4" | "1/1"
 }
 

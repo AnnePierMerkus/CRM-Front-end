@@ -6,11 +6,13 @@ import {bridge as schema, LoginFormType} from './LoginFormSchema';
 import {login} from "@/services/authentication/AuthenticationService";
 import {message} from "antd";
 import {saveToken} from "@/services/ApiService";
+import { useRouter } from 'next/navigation';
 
 export function LoginForm() {
+    const router = useRouter();
 
-    const success = () => {
-
+    const success = () => {    
+        router.push('/dashboard');
     }
     const error = ({response}: {response: {data: { message:string }}}) => {
         message.error(response.data.message)
@@ -21,6 +23,7 @@ export function LoginForm() {
             // @ts-ignore
             .then(response => {
                 saveToken(response.data.token)
+                success()
             })
             .catch(error)
     }
