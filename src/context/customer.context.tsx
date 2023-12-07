@@ -10,6 +10,7 @@ type CustomerData = {
     updateCustomer: (customer?: CustomerType, id?: string) => void,
     setSelectedID: (id?: string) => void,
     selected?: SelectedCustomerType,
+    getCustomer: (id: string) => CustomerType | undefined
 }
 
 const defaultValues: CustomerData = {
@@ -22,6 +23,7 @@ const defaultValues: CustomerData = {
     },
     setSelectedID: (id?: string): void => {
     },
+    getCustomer: (id: string): CustomerType | undefined => {return undefined}
 }
 
 const CustomerContext = createContext<CustomerData>(defaultValues);
@@ -51,6 +53,10 @@ export function CustomerProvider({children}: { children: React.ReactNode }) {
             })
         }
     }, [selectedID]);
+
+    const getCustomer = (id: string): CustomerType | undefined => {
+        return customers.find(c => c.ID === id)
+    }
 
     const toggleShowFormModal = () => {
         setShowFormModal(!showFormModal)
@@ -87,7 +93,7 @@ export function CustomerProvider({children}: { children: React.ReactNode }) {
 
     return (
         <CustomerContext.Provider
-            value={{customers, isLoading, showFormModal, toggleShowFormModal, updateCustomer, setSelectedID, selected}}>
+            value={{customers, isLoading, showFormModal, toggleShowFormModal, updateCustomer, setSelectedID, selected, getCustomer}}>
             {children}
         </CustomerContext.Provider>
     );

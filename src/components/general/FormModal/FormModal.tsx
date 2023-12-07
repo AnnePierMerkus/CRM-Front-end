@@ -1,6 +1,6 @@
-import { Modal } from "../Modal/Modal";
-import { ModalBody } from "../Modal/ModalBody/ModalBody";
-import { ModalHeader } from "../Modal/ModalHeader/ModalHeader";
+import {ModalHeader} from "@/components/general/Modal/ModalHeader/ModalHeader";
+import {ModalBody} from "@/components/general/Modal/ModalBody/ModalBody";
+import {Modal} from "@/components/general/Modal/Modal";
 
 type FormModalProps = {
   show: boolean;
@@ -10,15 +10,15 @@ type FormModalProps = {
 };
 
 export const FormModal = ({
-  show,
-  toggleShow,
-  title,
-  children,
-}: FormModalProps) => {
+                            show,
+                            toggleShow,
+                            title,
+                            children,
+                          }: FormModalProps) => {
   return (
-    <Modal show={show}>
-      <ModalHeader title={title} close={toggleShow} />
-      <ModalBody>{children}</ModalBody>
-    </Modal>
+      <Modal show={show}>
+        <ModalHeader title={title} close={toggleShow} />
+        <ModalBody>{children}</ModalBody>
+      </Modal>
   );
 };

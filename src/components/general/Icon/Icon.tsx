@@ -1,4 +1,5 @@
 import cross from './images/cross-svgrepo-com.svg'
+import arrowLeft from './images/left-arrow-svgrepo-com.svg'
 import Image from "next/image";
 import styles from './icon.module.css'
 
@@ -18,6 +19,10 @@ export interface IconProps extends BaseIconProps {
 
 export function CrossIcon(props: BaseIconProps) {
     return <Icon src={cross} alt={"cross"} {...props} />
+}
+
+export function ArrowLeft(props: BaseIconProps) {
+    return <Icon src={arrowLeft} alt={"left arrow"} {...props} />
 }
 
 // base

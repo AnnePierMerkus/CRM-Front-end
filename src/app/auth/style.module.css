@@ -1,158 +1,43 @@
-/*!* CSS Module for styling FrontPage.tsx *!*/
-
-/*.loginContainer {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    min-height: 100vh; !* Minimum height to fill the viewport *!*/
-/*    width: 100vw;*/
-/*    background-color: #f0f0f0; !* Background color for the entire screen *!*/
-/*}*/
-
-/*.leftPanel {*/
-/*    background: linear-gradient(to bottom, #DAA520, #007BFF); !* Gradient from brown-gold to deep blue *!*/
-/*    color: white;*/
-/*    padding: 40px;*/
-/*    text-align: center;*/
-/*    flex: 1; !* Takes up 50% of the container *!*/
-/*    position: relative; !* Position relative for absolute element *!*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    flex-direction: column;*/
-/*}*/
-
-
-/*.rightPanel {*/
-/*    background-color: white; !* Solid color for the right panel *!*/
-/*    padding: 40px;*/
-/*    text-align: center;*/
-/*    flex: 1; !* Takes up 50% of the container *!*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*    flex-direction: column;*/
-/*}*/
-
-/*.logo {*/
-/*    font-size: 48px;*/
-/*    font-weight: bold;*/
-/*    margin-bottom: 20px;*/
-/*}*/
-
-/*.welcomeText {*/
-/*    font-size: 18px;*/
-/*}*/
-
-/*.loginForm {*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.formGroup {*/
-/*    margin: 15px 0;*/
-/*    text-align: left;*/
-/*}*/
-
-/*.label {*/
-/*    font-weight: bold;*/
-/*    margin-bottom: 5px;*/
-/*}*/
-
-/*.input {*/
-/*    width: 100%; !* Occupy 100% of the parent's width *!*/
-/*    padding: 10px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 5px;*/
-/*    font-size: 16px;*/
-/*}*/
-
-/*.loginButton {*/
-/*    background-color: #007BFF;*/
-/*    color: white;*/
-/*    padding: 10px 20px;*/
-/*    border: none;*/
-/*    border-radius: 5px;*/
-/*    font-size: 18px;*/
-/*    cursor: pointer;*/
-/*    transition: background-color 0.3s ease;*/
-/*}*/
-
-/*.loginButton:hover {*/
-/*    background-color: #0056b3;*/
-/*}*/
-/* YourStyles.module.css (or your chosen CSS file) */
-
-.loginPage {
-    display: flex;
+.loginScreen {
+    position: relative;
     height: 100vh;
-    position: relative;
 }
 
-.backgroundPanel {
-    width: 100%;
-    display: flex;
-    position: relative;
+.wallpaper {
+    background-image: url('https://c4.wallpaperflare.com/wallpaper/277/173/260/stones-candles-aromatherapy-spa-wallpaper-preview.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100%;
 }
 
-.leftBackground {
-    flex: 4;
-    background: #44FF77;
-}
-
-.rightBackground {
-    flex: 6;
-    background: white;
-}
-.centeredPanel {
-    width: 65%;
-    height: 65%;
+.wallpaper::before {
+    content: "";
     position: absolute;
-    z-index: 2;
-    top: 17.5%;
-    left: 17.5%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.loginPanel {
+    position: absolute;
+    width: 25%;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 1);
+    padding: 30px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.leftCenterPanel {
-    width: 34.61538%;
-    height: 100%;
-    background: #44FF77;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+
+.ant-btn-primary {
+    background-color: red !important;
 }
-
-.rightCenterPanel {
-    width: 65.38461%;
-    height: 100%;
-    background: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
-}
-
-
-.logo {
-    max-width: 50%;
-    display: block;
-    margin-top: 15%; /* Vertically bring down the logo by 25% */
-}
-
-.text {
-    text-align: center;
-    word-wrap: break-word;
-    padding: 0 10px;
-    margin-top: 5px; /* Vertically bring down the text by 25% */
-}
-
-
-
-
-
-
+/*.logo {*/
+/*    max-width: 30%;*/
+/*    display: block;*/
+/*}*/

@@ -28,6 +28,7 @@ const sidebarItems: SidebarGroup[] = [
         title: 'Settings',
         children: [
             {title: 'Message types', href: '/dashboard/massage-types'},
+            {title: 'Salaries', href: '/dashboard/salaries'},
             {title: 'Booking history', href: '/dashboard/booking-history'},
             {title: 'Roles and permissions', href: '/dashboard/roles'}
         ]

@@ -10,6 +10,7 @@ export interface BookingType {
 }
 
 export interface BookingTypeType {
+    ID: string
     name: string
 }
 

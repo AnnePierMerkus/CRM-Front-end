@@ -1,7 +1,8 @@
 import axios from "axios";
 import {API_URL, TOKEN} from "@/services/ApiService";
-import {BookingType, EmployeeBookingsType} from "@/types/bookingType";
+import {BookingType, BookingTypeType, EmployeeBookingsType} from "@/types/bookingType";
 import moment from "moment";
+import { EmployeeBookingAddRequestType } from "@/components/bookings/Form/EmployeeBookingAddFormSchema";
 
 export async function getBookings(): Promise<BookingType[]> {
     const response = await axios.get(API_URL + "/appointment", {headers: {'Authorization': 'Bearer ' + TOKEN}});
@@ -34,6 +35,19 @@ export async function getBookings(): Promise<BookingType[]> {
     return []
 }
 
+export async function getBookingTypes(): Promise<BookingTypeType[]> {
+    const response = await axios.get(API_URL + "/appointment/type", {headers: {'Authorization': 'Bearer ' + TOKEN}});
+    if (response?.data?.success) {
+        // @ts-ignore
+        return response?.data?.types?.map(type => {
+            return {
+                ID: type?._id,
+                name: type?.name,
+            }
+        })
+    }
+    return [];
+}
 
 export async function getEmployeeBookings(date: string): Promise<EmployeeBookingsType[]> {
     const endDate = moment(date).add(1, 'days').format('YYYY-MM-DD') + 'T00:00:00.000Z';
@@ -55,4 +69,9 @@ export async function getEmployeeBookings(date: string): Promise<EmployeeBooking
         });
     }
     return [];
+}
+
+export async function createBooking(data: EmployeeBookingAddRequestType) {
+    const response = await axios.post(API_URL + '/appointment/create', data, {headers: {'Authorization': 'Bearer ' + TOKEN}});
+    console.debug(response)
 }

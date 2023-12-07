@@ -1,20 +1,21 @@
 'use client';
 
 import React from 'react';
-import {AutoForm} from "uniforms-antd";
+import {AutoFields, AutoForm, ErrorsField, SubmitField, TextField} from "uniforms-antd";
 import {bridge as schema, LoginFormType} from './LoginFormSchema';
 import {login} from "@/services/authentication/AuthenticationService";
-import {message} from "antd";
+import {Button, Form, Input, message} from "antd";
 import {saveToken} from "@/services/ApiService";
-import { useRouter } from 'next/navigation';
+import {useRouter} from 'next/navigation';
+import styles from "./style.module.css"
 
 export function LoginForm() {
     const router = useRouter();
 
-    const success = () => {    
+    const success = () => {
         router.push('/dashboard');
     }
-    const error = ({response}: {response: {data: { message:string }}}) => {
+    const error = ({response}: { response: { data: { message: string } } }) => {
         message.error(response.data.message)
     }
 
@@ -28,5 +29,16 @@ export function LoginForm() {
             .catch(error)
     }
 
-    return <AutoForm schema={schema} onSubmit={onSubmit}/>
+    return <AutoForm schema={schema} onSubmit={onSubmit}>
+        <TextField name='email'/>
+        <TextField name='password' type='password'/>
+        <ErrorsField/>
+        <div>
+            <Button className={styles.loginButton} type="primary" htmlType="submit">
+                Login
+            </Button>
+        </div>
+        <a href="/auth/password-forgotten">Forgot Password?</a>
+    </AutoForm>
+
 }
