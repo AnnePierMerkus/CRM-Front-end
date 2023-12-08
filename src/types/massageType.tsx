@@ -1,6 +1,7 @@
 export interface MassageType {
-    ID: number,
-    name: string,
-    currentPrice: string,
-    newPrice: string
+    id: string;
+    name: string;
+    price: number;
+    newPrice?: number | null;
+    activationDate?: string | null;
 }
