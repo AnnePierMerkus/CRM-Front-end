@@ -15,6 +15,8 @@ export const EmployeeAddForm = () => {
             updateEmployee(newEmployee as EmployeeType)
             toggleShowFormModal()
             message.success("Created employee '" + (newEmployee.firstName + " " + newEmployee.lastName) + "'")
+        }).catch((reason) => {
+            message.error(reason?.response?.data?.message)
         })
     }
 
