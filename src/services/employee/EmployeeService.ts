@@ -35,9 +35,9 @@ export async function createEmployee(data: EmployeeAddFormType) {
         phoneNumber: response?.data?.user?.phoneNumber,
         address: response?.data?.user?.address ? {
             line1: response?.data?.user?.address?.line1,
-            city: response?.data?.user?.address?.address.city,
-            zip: response?.data?.user?.address?.address.zip,
-            country: response?.data?.user?.address?.address.country,
+            city: response?.data?.user?.address?.city,
+            zip: response?.data?.user?.address?.zip,
+            country: response?.data?.user?.address?.country,
         } : undefined,
     }
 }
