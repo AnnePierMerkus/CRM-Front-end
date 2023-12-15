@@ -73,5 +73,9 @@ export async function getEmployeeBookings(date: string): Promise<EmployeeBooking
 
 export async function createBooking(data: EmployeeBookingAddRequestType) {
     const response = await axios.post(API_URL + '/appointment/create', data, {headers: {'Authorization': 'Bearer ' + TOKEN}});
-    console.debug(response)
+    if (response?.data.success == true) {
+        return true;
+    } else {
+        return false;
+    }
 }

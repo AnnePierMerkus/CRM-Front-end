@@ -5,18 +5,14 @@ import Column from "@/components/general/Column/Column";
 import Row from "@/components/general/Row/Row";
 import { useBookingContext } from "@/context/booking.context";
 import EmployeeBookingTable from "@/components/bookings/Table/EmployeeBookingTable";
-import { Button, DatePicker, DatePickerProps } from "antd";
-import next from "next";
-import moment from "moment";
 import { EmployeeBookingTableDatePicker } from "@/components/bookings/DatePicker/EmployeeBookingTableDatePicker";
 import { FormModal } from "@/components/general/FormModal/FormModal";
 import { EmployeeBookingAddForm } from "@/components/bookings/Form/EmployeeBookingAddForm";
-import { EmployeeAddForm } from "@/components/employees/Form/EmployeeAddForm";
 import { useModalContext } from "@/context/modal.context";
 
 export default function Page() {
-    const { bookings, date, setDate, showFormModal, toggleShowFormModal } = useBookingContext();
-    const { addToStack } = useModalContext();
+    const { bookings, date, setDate, reload} = useBookingContext();
+    const { addToStack, removeLastFromStack } = useModalContext();
 
 
     return (
@@ -29,16 +25,12 @@ export default function Page() {
             </Row>
             <Row>
                 <Column size="1/1">
-                    <EmployeeBookingTable bookings={bookings} addAction={() => addToStack("Add booking", <EmployeeBookingAddForm/>)}/>
+                    <EmployeeBookingTable bookings={bookings} addAction={() => addToStack("Add booking", <EmployeeBookingAddForm reload={() => {
+                        reload();
+                        removeLastFromStack();
+                    }}/>)}/>
                 </Column>
             </Row>
-            <FormModal
-                show={showFormModal}
-                toggleShow={toggleShowFormModal}
-                title={"Add booking"}
-            >
-                {/* <EmployeeBookingAddForm /> */}
-            </FormModal>
         </>
     );
 }

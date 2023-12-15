@@ -8,8 +8,7 @@ type BookingData = {
     isLoading: boolean,
     date: string,
     setDate: (date: string) => void,
-    showFormModal: boolean,
-    toggleShowFormModal: () => void,
+    reload: () => void,
 }
 
 const defaultValues: BookingData = {
@@ -17,9 +16,7 @@ const defaultValues: BookingData = {
     isLoading: true,
     date: moment().format('YYYY-MM-DD') + "T00:00:00.000Z",
     setDate: (date: string): void => {},
-    showFormModal: false,
-    toggleShowFormModal: (): void => {
-    },
+    reload: (): void => {}
 }
 
 const BookingContext = createContext<BookingData>(defaultValues);
@@ -27,8 +24,8 @@ const BookingContext = createContext<BookingData>(defaultValues);
 export function BookingProvider({children}: { children: React.ReactNode }) {
     const [bookings, setBookings] = useState<EmployeeBookingsType[]>([])
     const [isLoading, setLoading] = useState(defaultValues.isLoading);
-    const [date, setDate] = useState<string>(defaultValues.date)
-    const [showFormModal, setShowFormModal] = useState(false);
+    const [date, setDate] = useState<string>(defaultValues.date);
+    const [_reload, setReload] = useState<number>(0);
 
     useEffect(() => {
         setLoading(true);
@@ -36,15 +33,15 @@ export function BookingProvider({children}: { children: React.ReactNode }) {
             setBookings(r)
             setLoading(false)
         })
-    }, [date]);
+    }, [date, _reload]);
 
-    const toggleShowFormModal = () => {
-        setShowFormModal(!showFormModal)
+    const reload = () => {
+        setReload(prevState => prevState + 1)
     }
 
     return (
         <BookingContext.Provider
-            value={{bookings, isLoading, date, setDate, showFormModal, toggleShowFormModal}}>
+            value={{bookings, isLoading, date, setDate, reload}}>
             {children}
         </BookingContext.Provider>
     )

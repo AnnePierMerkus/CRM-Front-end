@@ -10,8 +10,9 @@ import { DateSelectField } from "../DateSelectField/DateSelectField";
 import moment from "moment";
 import { create } from "domain";
 import { createBooking } from "@/services/booking/BookingService";
+import {CustomerFormType} from "@/components/customers/CustomerBaseFormSchema";
 
-export const EmployeeBookingAddForm = () => {
+export const EmployeeBookingAddForm = ({reload}: {reload?: () => void;}) => {
     function transform(mode: ModelTransformMode, model: any) {
         if (mode === 'validate') {
             const { day, startTime, endTime } = model.range || {};
@@ -44,10 +45,10 @@ export const EmployeeBookingAddForm = () => {
         console.debug(requestData)
 
         createBooking(requestData).then(newBooking => {
-            console.log(newBooking)
+            if (newBooking && reload !== undefined) {
+                reload()
+            }
         });
-
-
     };
 
     return (
