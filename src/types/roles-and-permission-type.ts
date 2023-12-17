@@ -1,7 +1,11 @@
 export interface RolesAndPermissionType {
-    ID: number,
-    role: string,
+    ID: string,
+    name: string,
+    bookings: string,
     employees: string,
     customers: string,
-    roles: string
+    massageTypes: string,
+    salaries: string,
+    bookingHistory: string,
+    roles: string,
 }

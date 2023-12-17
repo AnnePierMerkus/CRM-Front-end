@@ -3,15 +3,16 @@
 import {DataTableColumnType} from "@/types/data-table-column-type";
 import DataTable from "@/components/general/DataTable/DataTable";
 import {MassageTypeBaseForm} from "@/components/massage-types/MassageTypeBaseForm";
-import { Button } from 'antd';
-import {MassageType} from "@/types/massageType";
-import {useState} from "react";
-import {CustomerType} from "@/types/customerType";
-import {useCustomerContext} from "@/context/customer.context";
+import {Button, message} from 'antd';
 import {useMassageTypeContext} from "@/context/massage-types.context";
+import {useModalContext} from "@/context/modal.context";
+
+import {MassageFormType} from "@/components/massage-types/MassageTypeBaseFormSchema";
+import {createMassageType, deleteMassageType, updateMassageType as updateMassageTypeCall} from "@/services/massage-types/MassageTypesService";
+import {CustomerBaseForm} from "@/components/customers/CustomerBaseForm";
 
 export default function Page() {
-    const [rows, setRows] = useState<MassageType[]>([]);
+    const { addToStack, removeLastFromStack } = useModalContext();
 
     const columns: DataTableColumnType[] = [
         {
@@ -20,33 +21,69 @@ export default function Page() {
         },
         {
             name: "price",
-            title: "Price"
+            title: "Price (MYR)"
         },
         {
             name: "newPrice",
-            title: "New Price"
+            title: "New Price (MYR)"
+        },
+        {
+            name: "activationDate",
+            title: "Price Change"
         }
 
     ]
 
-    const { massageTypes } =
+    const { massageTypes, updateMassageType, getMassageType } =
         useMassageTypeContext();
-    // const rows: MassageType[] = [...Array(100)].map((x, i) => {
-    //     return {
-    //         ID: i,
-    //         name: `type ${i}`,
-    //         price: '100 MYR',
-    //         newPrice: '150 MYR (starting 1st of January 2024)'
-    //     }
-    // })
 
-
-    const form = () => {
-        return <MassageTypeBaseForm />
+    const create = (data: MassageFormType) => {
+        createMassageType(data).then((newMassageType) => {
+            updateMassageType(newMassageType);
+            message.success(
+                "Created massage type '" +
+                (newMassageType.name) +
+                "'"
+            );
+            removeLastFromStack();
+        });
     }
 
+    const editAction = (data: MassageFormType, id?: string) => {
+        if (id !== undefined)
+            updateMassageTypeCall(id, data).then((updatedMassageType) => {
+                updateMassageType(updatedMassageType, id);
+                removeLastFromStack();
+                message.success(
+                    "Updated massage type '" +
+                    (updatedMassageType.name) +
+                    "'"
+                );
+            });
+    }
+
+    const showModal = () => {
+        addToStack("Add massage type", <MassageTypeBaseForm onSubmit={create} />);
+    }
+
+    const addBtn = (
+        <Button type={"primary"} onClick={showModal}>
+            Add
+        </Button>
+    );
+
+    const edit = (id: string) => {
+        addToStack("Edit massage type", <MassageTypeBaseForm onSubmit={editAction} selected={getMassageType(id)} id={id} />);
+    };
+
+    const deleteAction = (id: string) => {
+        deleteMassageType(id).then((r) => {
+            message.success("Deleted massage type");
+            updateMassageType(undefined, id);
+        });
+    };
 
     return <>
-        <DataTable columns={columns} rows={massageTypes} size={15} form={form()} add={true} edit={true} canDelete={true}/>
+        <DataTable columns={columns} rows={massageTypes} size={15} addBtn={addBtn} editAction={edit} deleteAction={deleteAction}/>
     </>
 }

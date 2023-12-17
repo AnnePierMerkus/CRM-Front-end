@@ -9,6 +9,7 @@ export async function customers() {
     const response = await axios.get(API_URL + "/customer", {headers: {'Authorization': 'Bearer ' + TOKEN}});
     // @ts-ignore
     return response?.data?.map(customer => {
+        console.log("hi")
         const c: CustomerType = {
             ID: customer?._id,
             firstName: customer?.firstName,

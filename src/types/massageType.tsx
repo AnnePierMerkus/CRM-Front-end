@@ -1,5 +1,5 @@
 export interface MassageType {
-    id: string;
+    ID: string;
     name: string;
     price: number;
     newPrice?: number | null;

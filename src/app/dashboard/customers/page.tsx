@@ -12,8 +12,6 @@ import { CustomerBaseForm } from "@/components/customers/CustomerBaseForm";
 import { CustomerFormType } from "@/components/customers/CustomerBaseFormSchema";
 
 export default function Page() {
-    const [rows, setRows] = useState<CustomerType[]>([]);
-
     const columns: DataTableColumnType[] = [
         {
             name: "firstName",

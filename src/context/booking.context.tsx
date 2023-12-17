@@ -14,7 +14,7 @@ type BookingData = {
 const defaultValues: BookingData = {
     bookings: [],
     isLoading: true,
-    date: moment().format('YYYY-MM-DD') + "T00:00:00.000Z",
+    date: moment().set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString(),
     setDate: (date: string): void => {},
     reload: (): void => {}
 }

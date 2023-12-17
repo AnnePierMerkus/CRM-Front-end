@@ -11,18 +11,18 @@ export function EmployeeBookingTableDatePicker({
   setDate: (date: string) => void;
 }) {
   const onChange: DatePickerProps["onChange"] = (_, dateString) => {
-    setDate(dateString + "T00:00:00.000Z");
+    setDate(moment(dateString).set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString());
   };
 
   const prevDate = () => {
     setDate(
-      moment(date).subtract(1, "days").format("YYYY-MM-DD") + "T00:00:00.000Z"
+        moment(date).subtract(1, "days").set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString()
     );
   };
 
   const nextDate = () => {
     setDate(
-      moment(date).add(1, "days").format("YYYY-MM-DD") + "T00:00:00.000Z"
+        moment(date).add(1, "days").set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString()
     );
   };
 

@@ -50,7 +50,7 @@ export async function getBookingTypes(): Promise<BookingTypeType[]> {
 }
 
 export async function getEmployeeBookings(date: string): Promise<EmployeeBookingsType[]> {
-    const endDate = moment(date).add(1, 'days').format('YYYY-MM-DD') + 'T00:00:00.000Z';
+    const endDate = moment(date).add(1, 'days').toISOString();
 
     const response = await axios.get(API_URL + `/appointment/employees?startDate=${date}&endDate=${endDate}`, {headers: {'Authorization': 'Bearer ' + TOKEN}});
     if (response?.data?.success) {
