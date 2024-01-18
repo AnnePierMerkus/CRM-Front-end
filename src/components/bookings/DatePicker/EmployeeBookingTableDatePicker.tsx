@@ -1,7 +1,6 @@
 import { Button, DatePicker, DatePickerProps } from "antd";
 import styles from "./employeeBookingTableDatePicker.module.css";
 import moment from "moment";
-import Card from "../../general/Card/Card";
 
 export function EmployeeBookingTableDatePicker({
   date,
@@ -11,26 +10,32 @@ export function EmployeeBookingTableDatePicker({
   setDate: (date: string) => void;
 }) {
   const onChange: DatePickerProps["onChange"] = (_, dateString) => {
-    setDate(moment(dateString).set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString());
+    const selectedDate = moment(dateString).set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString();
+    const currentDate = moment(date).set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString();
+    if (selectedDate >= currentDate) {
+      setDate(selectedDate);
+    }
   };
 
   const prevDate = () => {
-    setDate(
-        moment(date).subtract(1, "days").set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString()
-    );
+    const currentDate = moment(date).set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString();
+    const today = moment().set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString();
+    if (currentDate > today) {
+      setDate(moment(date).subtract(1, "days").set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString());
+    }
   };
 
   const nextDate = () => {
     setDate(
-        moment(date).add(1, "days").set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString()
+      moment(date).add(1, "days").set("hour", 0).set("minute", 0).set("second", 0).set("millisecond", 0).toISOString()
     );
   };
 
   return (
-    <Card className={styles.wrapper}>
-      <Button onClick={prevDate}>prev</Button>
+    <div className={styles.wrapper}>
+      <Button onClick={prevDate} disabled={moment(date).isSameOrBefore(moment().startOf("day"))}>prev</Button>
       <DatePicker onChange={onChange} value={moment(date)} allowClear={false} />
       <Button onClick={nextDate}>next</Button>
-    </Card>
+    </div>
   );
 }

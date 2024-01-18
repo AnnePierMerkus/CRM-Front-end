@@ -1,3 +1,5 @@
+import { removeToken } from "@/services/ApiService";
+
 interface SidebarGroup {
     title: string,
     children: SidebarItem[]
@@ -5,7 +7,8 @@ interface SidebarGroup {
 
 interface SidebarItem {
     title: string,
-    href: string
+    href?: string,
+    action?: () => void
 }
 
 const sidebarItems: SidebarGroup[] = [
@@ -31,6 +34,13 @@ const sidebarItems: SidebarGroup[] = [
             {title: 'Salaries', href: '/dashboard/salaries'},
             {title: 'Booking history', href: '/dashboard/booking-history'},
             {title: 'Roles and permissions', href: '/dashboard/roles'}
+        ]
+    },
+    {
+        title: 'Account',
+        children: [
+            {title: 'Profile', href: '/dashboard/profile'},
+            {title: 'Log out', action: removeToken}
         ]
     }
 ]

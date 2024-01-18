@@ -1,4 +1,3 @@
-import { HTMLFieldProps, connectField } from "uniforms";
 import Select from "react-select";
 import CreatableSelect from 'react-select/creatable';
 import { useRef } from "react";
@@ -10,6 +9,8 @@ export function SelectField({
                                 isLoading,
                                 handleCreate,
                                 label,
+                                isDisabled,
+                                error
                             }: {
     value: string | undefined;
     options: { value: string; label: string }[] | undefined;
@@ -17,6 +18,8 @@ export function SelectField({
     isLoading: boolean;
     handleCreate?: (inputValue: string) => void | undefined;
     label: string;
+    isDisabled?: boolean;
+    error?: boolean
 }) {
     const selectRef = useRef<any>(null);
 
@@ -33,7 +36,14 @@ export function SelectField({
                     }}
                     isLoading={isLoading}
                     onCreateOption={handleCreate}
-                    isDisabled={isLoading}
+                    isDisabled={isLoading || isDisabled}
+                    styles={{
+                        control: (provided, state) => ({
+                            ...provided,
+                            borderColor: error ? '#ff4d4f' : provided.borderColor,
+                            boxShadow: error ? '0 0 0 2px rgba(255,77,79,.2)' : provided.boxShadow,
+                        })
+                    }}
                 />
             )
         return (
@@ -46,7 +56,14 @@ export function SelectField({
                     onChange(option?.value);
                 }}
                 isLoading={isLoading}
-                isDisabled={isLoading}
+                isDisabled={isLoading || isDisabled}
+                styles={{
+                    control: (provided, state) => ({
+                        ...provided,
+                        borderColor: error ? '#ff4d4f' : provided.borderColor,
+                        boxShadow: error ? '0 0 0 2px rgba(255,77,79,.2)' : provided.boxShadow,
+                    })
+                }}
             />
         );
     }

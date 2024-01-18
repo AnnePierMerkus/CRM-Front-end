@@ -7,4 +7,9 @@ export function saveToken(token: string) {
     window.localStorage.setItem(tokenKey, token)
 }
 
+export function removeToken() {
+    window.localStorage.removeItem(tokenKey)
+    window.location.href = '/auth/login'
+};
+
 

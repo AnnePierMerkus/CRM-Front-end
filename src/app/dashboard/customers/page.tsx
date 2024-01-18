@@ -1,45 +1,19 @@
 "use client";
 
 import { DataTableColumnType } from "@/types/data-table-column-type";
-import { CustomerType } from "@/types/customerType";
 import DataTable from "@/components/general/DataTable/DataTable";
-import { useState } from "react";
 import { useCustomerContext } from "@/context/customer.context";
-import { Button, message } from "antd";
+import { Button, Card, Spin, message } from "antd";
 import { createCustomer, deleteCustomer, updateCustomer as updateCustomerCall } from "@/services/customer/CustomerService";
 import { useModalContext } from "@/context/modal.context";
 import { CustomerBaseForm } from "@/components/customers/CustomerBaseForm";
 import { CustomerFormType } from "@/components/customers/CustomerBaseFormSchema";
+import NavBar from "@/components/general/NavBar/NavBar";
+import { CustomersTable } from "@/components/customers/CustomersTable";
 
 export default function Page() {
-    const columns: DataTableColumnType[] = [
-        {
-            name: "firstName",
-            title: "Firstname",
-        },
-        {
-            name: "lastName",
-            title: "Lastname",
-        },
-        {
-            name: "phoneNumber",
-            title: "PhoneNumber",
-        },
-        // {
-        //     name: "lastEmployee",
-        //     title: "lastEmployee"
-        // },
-        // {
-        //     name: "lastType",
-        //     title: "lastType"
-        // },
-        // {
-        //     name: "options",
-        //     title: "options"
-        // }
-    ];
 
-    const { customers, setSelectedID, updateCustomer, getCustomer } =
+    const { customers, setSelectedID, updateCustomer, getCustomer, isLoading } =
         useCustomerContext();
     const { addToStack, removeLastFromStack } = useModalContext();
 
@@ -68,16 +42,6 @@ export default function Page() {
             });
     }
 
-    const showModal = () => {
-        addToStack("Add customer", <CustomerBaseForm onSubmit={create} />);
-    }
-
-    const addBtn = (
-        <Button type={"primary"} onClick={showModal}>
-            Add
-        </Button>
-    );
-
     const edit = (id: string) => {
         addToStack("Edit customer", <CustomerBaseForm onSubmit={editAction} selected={getCustomer(id)} id={id} />);
     };
@@ -92,14 +56,31 @@ export default function Page() {
 
     return (
         <>
-            <DataTable
-                columns={columns}
-                rows={customers}
-                size={10}
-                addBtn={addBtn}
-                editAction={edit}
-                deleteAction={deleteAction}
+            <NavBar title="Customers" 
+                extra={[
+                    <Button
+                        key="1"
+                        type="primary"
+                        onClick={() =>
+                            addToStack(
+                                "Add customer",
+                                <CustomerBaseForm
+                                    onSubmit={create}
+                                />
+                            )
+                        }
+                    >
+                        Create customer
+                    </Button>,
+                ]}
             />
+            <Spin spinning={isLoading}>
+                <Card
+                    style={{ width: "100%" }}
+                >
+                    <CustomersTable customers={customers} edit={edit}deleteAction={deleteAction}/>
+                </Card>
+            </Spin>
         </>
     );
 }

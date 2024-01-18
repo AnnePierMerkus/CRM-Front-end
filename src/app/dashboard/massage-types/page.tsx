@@ -1,80 +1,91 @@
-'use client';
+"use client";
 
-import {DataTableColumnType} from "@/types/data-table-column-type";
-import DataTable from "@/components/general/DataTable/DataTable";
-import {MassageTypeBaseForm} from "@/components/massage-types/MassageTypeBaseForm";
-import {Button, message} from 'antd';
-import {useMassageTypeContext} from "@/context/massage-types.context";
-import {useModalContext} from "@/context/modal.context";
+import { MassageFormCreateType, MassageTypeCreateForm } from "@/components/massage-types/MassageTypeCreateForm";
+import { Button, Card, Spin, message } from "antd";
+import { useMassageTypeContext } from "@/context/massage-types.context";
+import { useModalContext } from "@/context/modal.context";
 
-import {MassageFormType} from "@/components/massage-types/MassageTypeBaseFormSchema";
-import {createMassageType, deleteMassageType, updateMassageType as updateMassageTypeCall} from "@/services/massage-types/MassageTypesService";
-import {CustomerBaseForm} from "@/components/customers/CustomerBaseForm";
+import {
+    createMassageType,
+    deleteMassageType,
+    getMassageTypePrices,
+    updateNameMassageType,
+    updatePriceMassageType,
+} from "@/services/massage-types/MassageTypesService";
+import { MassageTypesTable } from "@/components/massage-types/MassageTypesTable";
+import NavBar from "@/components/general/NavBar/NavBar";
+import { MassageTypeUpdateNameForm } from "@/components/massage-types/MassageTypeUpdateNameForm";
+import { MassageTypePriceTable } from "@/components/massage-types/MassageTypePriceTable";
+import { MassageTypePrice } from "@/types/massageType";
+import { MassageTypeUpdatePriceForm } from "@/components/massage-types/MassageTypeUpdatePriceForm";
 
 export default function Page() {
     const { addToStack, removeLastFromStack } = useModalContext();
 
-    const columns: DataTableColumnType[] = [
-        {
-            name: "name",
-            title: "Name"
-        },
-        {
-            name: "price",
-            title: "Price (MYR)"
-        },
-        {
-            name: "newPrice",
-            title: "New Price (MYR)"
-        },
-        {
-            name: "activationDate",
-            title: "Price Change"
-        }
-
-    ]
-
-    const { massageTypes, updateMassageType, getMassageType } =
+    const { isLoading, massageTypes, updateMassageType, getMassageType } =
         useMassageTypeContext();
 
-    const create = (data: MassageFormType) => {
+    const create = (data: MassageFormCreateType) => {
         createMassageType(data).then((newMassageType) => {
             updateMassageType(newMassageType);
-            message.success(
-                "Created massage type '" +
-                (newMassageType.name) +
-                "'"
-            );
+            message.success("Created massage type '" + newMassageType.name + "'");
             removeLastFromStack();
         });
-    }
+    };
 
-    const editAction = (data: MassageFormType, id?: string) => {
-        if (id !== undefined)
-            updateMassageTypeCall(id, data).then((updatedMassageType) => {
-                updateMassageType(updatedMassageType, id);
-                removeLastFromStack();
-                message.success(
-                    "Updated massage type '" +
-                    (updatedMassageType.name) +
-                    "'"
-                );
-            });
-    }
+    const editNameAction = (id: string, name: string) => {
+        updateNameMassageType(id, name).then((updatedMassageType) => {
+            updateMassageType(updatedMassageType, id);
+            removeLastFromStack();
+            message.success(
+                "Updated massage type '" + updatedMassageType.name + "'"
+            );
+        });
+    };
+
+    const editPriceAction = (id: string, price: number, activeFrom: Date) => {
+        updatePriceMassageType(id, price, activeFrom).then((updatedMassageType) => {
+            updateMassageType(updatedMassageType, id);
+            removeLastFromStack();
+            message.success(
+                "Updated massage type '" + updatedMassageType.name + "'"
+            );
+        });
+    };
 
     const showModal = () => {
-        addToStack("Add massage type", <MassageTypeBaseForm onSubmit={create} />);
+        addToStack("Add massage type", <MassageTypeCreateForm onSubmit={create} />);
+    };
+
+    const editName = (id: string) => {
+        addToStack(
+            "Edit massage name type",
+            <MassageTypeUpdateNameForm
+                onSubmit={(data) => editNameAction(id, data.name.toString())}
+                selected={getMassageType(id)}
+            />
+        );
+    };
+
+    const showPrices = (id: string) => {
+        getMassageTypePrices(id).then((prices: MassageTypePrice[]) => {
+            addToStack(
+                "Show massage type prices",
+                <MassageTypePriceTable
+                    prices={prices}
+                />
+            );
+        })
     }
 
-    const addBtn = (
-        <Button type={"primary"} onClick={showModal}>
-            Add
-        </Button>
-    );
-
-    const edit = (id: string) => {
-        addToStack("Edit massage type", <MassageTypeBaseForm onSubmit={editAction} selected={getMassageType(id)} id={id} />);
-    };
+    const editPrice = (id: string) => {
+        addToStack(
+            "Edit massage price type",
+            <MassageTypeUpdatePriceForm
+                onSubmit={(data) => editPriceAction(id, data.price as number, data.activeFrom)}
+            />
+        );
+    }
 
     const deleteAction = (id: string) => {
         deleteMassageType(id).then((r) => {
@@ -83,7 +94,27 @@ export default function Page() {
         });
     };
 
-    return <>
-        <DataTable columns={columns} rows={massageTypes} size={15} addBtn={addBtn} editAction={edit} deleteAction={deleteAction}/>
-    </>
+    return (
+        <>
+            <NavBar
+                title="Massage types"
+                extra={[
+                    <Button key="1" type="primary" onClick={() => showModal()}>
+                        Create massage type
+                    </Button>,
+                ]}
+            />
+            <Spin spinning={isLoading}>
+                <Card style={{ width: "100%" }}>
+                    <MassageTypesTable
+                        messageTypes={massageTypes}
+                        editName={editName}
+                        editPrice={editPrice}
+                        showPrices={showPrices}
+                        deleteAction={deleteAction}
+                    />
+                </Card>
+            </Spin>
+        </>
+    );
 }

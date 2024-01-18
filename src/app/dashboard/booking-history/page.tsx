@@ -1,91 +1,49 @@
 'use client';
 
 import React, { useState } from 'react';
-import { DataTableColumnType } from "@/types/data-table-column-type";
-import DataTable from "@/components/general/DataTable/DataTable";
-import { MassageTypeBaseForm } from "@/components/massage-types/MassageTypeBaseForm";
-import { Tabs } from 'antd';
-import { InvoiceType } from "@/types/invoiceType";
+import { Alert, Card, Tabs } from 'antd';
+import NavBar from '@/components/general/NavBar/NavBar';
+import { EmployeeBookingsTable } from '@/components/employees/Table/EmployeeBookingsTable';
+import { useBookingHistoryContext } from '@/context/booking-history.context';
+import { InvoiceTable } from '@/components/invoice/InvoiceTable';
 
 const { TabPane } = Tabs;
 
 export default function Page() {
-    const columns: DataTableColumnType[] = [
-        {
-            name: "name",
-            title: "Name"
-        },
-        {
-            name: "date",
-            title: "Date"
-        },
-        {
-            name: "employee",
-            title: "Employee"
-        },
-        {
-            name: "customer",
-            title: "Customer",
-        },
-        {
-            name: "type",
-            title: "Type",
-        },
-        {
-            name: "discount",
-            title: "Discount",
-        }
-    ]
+    const [activeTab, setActiveTab] = useState<string>("invoices");
 
-    const invoices: InvoiceType[] = [...Array(100)].map((x, i) => {
-        return {
-            ID: i,
-            name: `Invoice ${i}`,
-            date: 'January 5th, 2024',
-            employee: 'Steve Hennessy',
-            customer: 'Pierre Merkus',
-            type: "Full body",
-            discount: "100%"
-        }
-    });
-
-    // Placeholder data for canceled bookings
-    const canceledBookings: InvoiceType[] = [...Array(50)].map((x, i) => {
-        return {
-            ID: i,
-            name: `Canceled Booking ${i}`,
-            date: 'February 10th, 2024',
-            employee: 'John Doe',
-            customer: 'Alice Smith',
-            type: "Swedish Massage",
-            discount: "0%"
-        }
-    });
-
-    const form = () => {
-        return <MassageTypeBaseForm />
-    }
-
-    const [activeTab, setActiveTab] = useState('invoices');
-
-    const handleTabChange = (key: string) => {
-        setActiveTab(key);
-    }
+    const { bookings, invoices, isLoading, newInvoices } = useBookingHistoryContext();
 
     return (
         <>
-            <Tabs defaultActiveKey={activeTab} onChange={handleTabChange}>
-                <TabPane tab="Invoices" key="invoices">
-                    {activeTab === 'invoices' && (
-                        <DataTable columns={columns} rows={invoices} size={10} form={form()} add={false} edit={true} canDelete={true} />
-                    )}
-                </TabPane>
-                <TabPane tab="Canceled Bookings" key="canceled">
-                    {activeTab === 'canceled' && (
-                        <DataTable columns={columns} rows={canceledBookings} size={10} form={form()} add={false} edit={true} canDelete={true} />
-                    )}
-                </TabPane>
-            </Tabs>
+            <NavBar title="Booking History" />
+            <Card
+                style={{ width: "100%" }}
+                tabList={[
+                    {
+                        key: "invoices",
+                        tab: "Invoices",
+                    },
+                    {
+                        key: "canceled",
+                        tab: "Canceled Bookings",
+                    },
+                ]}
+                activeTabKey={activeTab}
+                onTabChange={setActiveTab}
+
+            >
+                {activeTab === "invoices" && <>
+                    {
+                        newInvoices !== 0 ? <>
+                            <Alert message={`A total of '${newInvoices}' invoices have been created`} type="success" showIcon closable />
+                            <br />
+                        </> : ''
+                    }
+                    <InvoiceTable isLoading={isLoading} invoices={invoices} />
+                </>}
+                {activeTab === "canceled" && <EmployeeBookingsTable bookings={bookings} />}
+            </Card>
         </>
     );
 }

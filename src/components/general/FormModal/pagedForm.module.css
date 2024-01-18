@@ -1,0 +1,21 @@
+.wrapper {
+
+}
+
+.steps {
+    margin-bottom: 20px;
+}
+
+.content {
+
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.actions button:last-child {
+    margin-left: 10px;
+}

@@ -60,10 +60,26 @@ export async function getEmployeeBookings(date: string): Promise<EmployeeBooking
             const bookings = employeeBooking?.appointments.map(appointment => {
                 appointment.start = new Date(appointment.start)
                 appointment.end = new Date(appointment.end)
+                appointment.type = {
+                    ID: appointment.type._id,
+                    name: appointment.type.name,
+                }
                 return appointment;
             })
             return {
-                employee: employeeBooking?.employee,
+                employee: {
+                    ID: employeeBooking?.employee?._id,
+                    email: employeeBooking?.employee?.email,
+                    firstName: employeeBooking?.employee?.firstName,
+                    lastName: employeeBooking?.employee?.lastName,
+                    phoneNumber: employeeBooking?.employee?.phoneNumber,
+                    address: {
+                        line1: employeeBooking?.employee?.address?.line1,
+                        city: employeeBooking?.employee?.address?.city,
+                        zip: employeeBooking?.employee?.address?.zip,
+                        country: employeeBooking?.employee?.address?.country,
+                    }
+                },
                 bookings: bookings,
             }
         });
@@ -73,6 +89,24 @@ export async function getEmployeeBookings(date: string): Promise<EmployeeBooking
 
 export async function createBooking(data: EmployeeBookingAddRequestType) {
     const response = await axios.post(API_URL + '/appointment/create', data, {headers: {'Authorization': 'Bearer ' + TOKEN}});
+    if (response?.data.success == true) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export async function updateBooking(id: string, data: EmployeeBookingAddRequestType) {
+    const response = await axios.patch(API_URL + `/appointment/${id}`, data, {headers: {'Authorization': 'Bearer ' + TOKEN}});
+    if (response?.data.success == true) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export async function cancelBooking(id: string) {
+    const response = await axios.delete(API_URL + `/appointment/${id}`, {headers: {'Authorization': 'Bearer ' + TOKEN}});
     if (response?.data.success == true) {
         return true;
     } else {

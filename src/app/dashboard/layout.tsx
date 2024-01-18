@@ -44,7 +44,7 @@ export default function DashboardLayout({
                 </div>
                 <div className={styles.main}>
                     <div className={styles.container}>
-                        <NavBar />
+                        {/* <NavBar /> */}
                         {children}
                     </div>
                 </div>

@@ -1,0 +1,19 @@
+.wrapper {
+    height: 294px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0 0 0;
+}
+
+.wrapper.disabled {
+    overflow-y: hidden;
+}
+
+.button {
+    margin-bottom: 10px;
+}
+
+.button:last-child {
+    margin-bottom: 0;
+}

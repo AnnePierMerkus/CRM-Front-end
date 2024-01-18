@@ -2,7 +2,7 @@
 
 import {DataTableColumnType} from "@/types/data-table-column-type";
 import DataTable from "@/components/general/DataTable/DataTable";
-import {MassageTypeBaseForm} from "@/components/massage-types/MassageTypeBaseForm";
+import {MassageTypeBaseForm} from "@/components/massage-types/MassageTypeCreateForm";
 import { Button } from 'antd';
 import {MassageType} from "@/types/massageType";
 import {SalaryType} from "@/types/salaryType";

@@ -1,6 +1,12 @@
 .wrapper {
     display: flex;
-    margin-bottom: 20px;
-    padding: 10px;
     justify-content: space-between;
+}
+
+.wrapper button:first-child {
+    margin-right: 10px;
+}
+
+.wrapper button:last-child {
+    margin-left: 10px;
 }

@@ -5,7 +5,8 @@ import { getEmployees } from "@/services/employee/EmployeeService";
 
 type EmployeeSelectProps = HTMLFieldProps<string, HTMLDivElement>;
 
-function EmployeeSelect({ onChange, value }: EmployeeSelectProps) {
+function EmployeeSelect({ onChange, value, error }: EmployeeSelectProps) {
+
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [options, setOptions] = useState<
         { value: string; label: string }[] | undefined
@@ -35,6 +36,7 @@ function EmployeeSelect({ onChange, value }: EmployeeSelectProps) {
             options={options}
             isLoading={isLoading}
             label="Employee"
+            error={error !== undefined && error != null}
         />
     );
 }

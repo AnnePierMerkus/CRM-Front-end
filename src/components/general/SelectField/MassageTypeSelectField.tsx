@@ -5,7 +5,7 @@ import { getBookingTypes } from "@/services/booking/BookingService";
 
 type MassageTypeSelectProps = HTMLFieldProps<string, HTMLDivElement>;
 
-function MassageTypeSelect({ onChange, value }: MassageTypeSelectProps) {
+function MassageTypeSelect({ onChange, value, error }: MassageTypeSelectProps) {
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [options, setOptions] = useState<
         { value: string; label: string }[] | undefined
@@ -35,6 +35,7 @@ function MassageTypeSelect({ onChange, value }: MassageTypeSelectProps) {
             options={options}
             isLoading={isLoading}
             label="Massage Type"
+            error={error !== undefined && error != null}
         />
     );
 }

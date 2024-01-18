@@ -10,11 +10,10 @@ import {useRouter} from 'next/navigation';
 import styles from "./style.module.css"
 
 export function LoginForm() {
-    const router = useRouter();
-
     const success = () => {
-        router.push('/dashboard');
+        window.location.href = '/dashboard'
     }
+
     const error = ({response}: { response: { data: { message: string } } }) => {
         message.error(response.data.message)
     }
@@ -25,6 +24,7 @@ export function LoginForm() {
             .then(response => {
                 saveToken(response.data.token)
                 success()
+                
             })
             .catch(error)
     }
