@@ -40,10 +40,10 @@ export function EmployeebookingShow({
         <p className={styles.descriptionHeader}>Customer</p>
         <Row>
             <Col span={24}>
-                <DescriptionItem title="Full Name" content={booking.customer.firstName + " " + booking.customer.lastName} />
+                <DescriptionItem title="Full Name" content={booking.customer ? booking.customer.firstName + " " + booking.customer.lastName : "Anonymous"} />
             </Col>
             <Col span={24}>
-                <DescriptionItem title="Phonenumber" content={booking.customer.phoneNumber} />
+                <DescriptionItem title="Phonenumber" content={booking.customer?.phoneNumber} />
             </Col>
         </Row>
         <Divider />

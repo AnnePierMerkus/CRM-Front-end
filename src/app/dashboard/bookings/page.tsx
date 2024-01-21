@@ -66,13 +66,13 @@ export default function Page() {
                         viewAction={(booking: BookingType, employee: EmployeeType) => {
                             addToStack(
                                 "View booking: " +
-                                booking.customer.firstName +
+                                (booking.customer ? booking.customer.firstName +
                                 " " +
-                                booking.customer.lastName,
+                                booking.customer.lastName : "Anonymous"),
                                 <EmployeebookingShow booking={booking} employee={employee} />,
                                 undefined,
                                 <>
-                                    <Button
+                                    {booking.customer && <Button
                                         type="primary"
                                         onClick={() =>
                                             addToStack(
@@ -90,7 +90,7 @@ export default function Page() {
                                         style={{ marginRight: "16px" }}
                                     >
                                         Edit booking
-                                    </Button>
+                                    </Button>}
                                     <Popconfirm
                                         title="Are you sure to cancel the booking?"
                                         onConfirm={() => cancelBookingAction(booking._id)}

@@ -1,58 +1,63 @@
-import { EmployeeSalaryType } from "@/types/employeeSalaryType";
-import { Tag } from "antd";
+import { EmployeeSalaryMonthType } from "@/types/employeeSalaryType";
 import Table, { ColumnsType } from "antd/lib/table";
-import moment from "moment";
 
 interface DataType {
-    ID: string;
-    type: string;
-    amount: number;
-    activeFrom: string;
-    isActive: boolean;
+  ID: string;
+  month: string;
+  year: string;
+  amount: string;
 }
 
 const columns: ColumnsType<DataType> = [
-    {
-        title: "Amount",
-        dataIndex: "amount",
-        key: "amount",
-        render: (amount: number, record: DataType) => {
-            const formattedAmount = `${amount}${record.type === "%" ? record.type : ` ${record.type}`}`;
-            return <span>{formattedAmount}</span>;
-        }
-    },
-    {
-        title: "Active from",
-        dataIndex: "activeFrom",
-        key: "activeFrom",
-    },
-    {
-        title: "Currently active",
-        dataIndex: "isActive",
-        key: "isActive",
-        render: (isActive: boolean,) => {
-            return isActive ? <Tag color="success">Active</Tag> : undefined;
-        },
-    },
+  {
+    title: "Month",
+    dataIndex: "month",
+    key: "month",
+  },
+  {
+    title: "Year",
+    dataIndex: "year",
+    key: "year",
+  },
+  {
+    title: "Amount",
+    dataIndex: "amount",
+    key: "amount",
+  },
 ];
 
 export function EmployeeSalariesTable({
-    salaries,
+  salaries,
 }: {
-    salaries?: EmployeeSalaryType[] | undefined;
+  salaries?: EmployeeSalaryMonthType[] | undefined;
 }) {
-    return (
-        <Table
-            columns={columns}
-            dataSource={salaries?.map((salary) => {
-                return {
-                    type: salary.type,
-                    amount: salary.amount,
-                    activeFrom: moment(salary.activeFrom).format("DD/MM/YYYY"),
-                    isActive: salary.isActive,
-                } as DataType;
-            })}
-            rowKey="ID"
-        />
-    );
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  return (
+    <Table
+      columns={columns}
+      dataSource={salaries?.map((salary) => {
+        return {
+          ID: salary.month + "-" + salary.year,
+          month: monthNames[salary.month],
+          year: salary.year.toString(),
+          amount: salary.amount + " MYR",
+        } as DataType;
+      })}
+      rowKey="ID"
+    />
+  );
 }

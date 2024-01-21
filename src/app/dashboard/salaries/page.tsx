@@ -1,40 +1,34 @@
-'use client';
+"use client";
 
-import {DataTableColumnType} from "@/types/data-table-column-type";
-import DataTable from "@/components/general/DataTable/DataTable";
-import {MassageTypeBaseForm} from "@/components/massage-types/MassageTypeCreateForm";
-import { Button } from 'antd';
-import {MassageType} from "@/types/massageType";
-import {SalaryType} from "@/types/salaryType";
+import { EmployeeAllSalariesTable } from "@/components/employees/Table/EmployeeAllSalariesTable";
+import NavBar from "@/components/general/NavBar/NavBar";
+import { getEmployeeSalaries } from "@/services/employee/EmployeeSalaryService";
+import { EmployeeSalaryMonthType } from "@/types/employeeSalaryType";
+import { Card } from "antd";
+import { useEffect, useState } from "react";
 
 export default function Page() {
-    const columns: DataTableColumnType[] = [
-        {
-            name: "employee",
-            title: "Employee"
-        },
-        {
-            name: "hoursWorked",
-            title: "Hours worked"
-        },
-        {
-            name: "salary",
-            title: "Salary"
-        }
+    const [salaries, setSalaries] = useState<EmployeeSalaryMonthType[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    ]
+    useEffect(() => {
+        getEmployeeSalaries().then((res): void => {
+            console.debug(res);
+            setIsLoading(false);
+            setSalaries(res);
+        });
+    }, []);
 
-    const rows: SalaryType[] = [...Array(100)].map((x, i) => {
-        return {
-            ID: i,
-            employee: `employee ${i}`,
-            hoursWorked: '100 hours',
-            salary: '1000 MYR'
-        }
-    })
+    if (isLoading) {
+        return;
+    }
 
-
-    return <>
-        <DataTable columns={columns} rows={rows} size={15} />
-    </>
+    return (
+        <>
+            <NavBar title="Salaries" />
+            <Card>
+                <EmployeeAllSalariesTable salaries={salaries} />
+            </Card>
+        </>
+    );
 }

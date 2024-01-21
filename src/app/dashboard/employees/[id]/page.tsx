@@ -2,36 +2,51 @@
 
 import { useState, useMemo, useEffect } from "react";
 import NavBar from "@/components/general/NavBar/NavBar";
-import { Button, Card, Descriptions, Skeleton, Spin, Tabs } from "antd";
+import {
+    Button,
+    Card,
+    Descriptions,
+    Skeleton,
+    Spin,
+    Tabs,
+    message,
+} from "antd";
 import { useSingleEmployeeContext } from "@/context/single-employee.context";
 import { useRouter } from "next/navigation";
-import { EmployeeBookingsTable } from "@/components/employees/Table/EmployeeBookingsTable";
-import { EmployeeSalariesTable } from "@/components/employees/Table/EmployeeSalariesTable";
+import { EmployeeWagesTable } from "@/components/employees/Table/EmployeeWagesTable";
 import { useModalContext } from "@/context/modal.context";
-import { EmployeeSalaryAddForm } from "@/components/employees/Form/EmployeeSalaryAddForm";
+import {
+    CreateEmployeeWageType,
+    EmployeeWageAddForm,
+} from "@/components/employees/Form/EmployeeWageAddForm";
+import { EmployeeSalariesTable } from "@/components/employees/Table/EmployeeSalariesTable";
+import { updateEmployeeWage } from "@/services/employee/EmployeeWageService";
 const tabList = [
     {
         key: "information",
         tab: "Information",
     },
     {
+        key: "wage",
+        tab: "Wage",
+    },
+    {
         key: "salary",
         tab: "Salary",
-    },
-    {
-        key: "invoices",
-        tab: "Invoices",
-    },
-    {
-        key: "bookings",
-        tab: "Bookings",
     },
 ];
 
 export default function Page({ params }: { params: { id: string } }) {
     const [activeTab, setActiveTab] = useState<string>("information");
-    const { employee, isLoading, setEmployee, invoices, bookings, getSalaries } =
-        useSingleEmployeeContext();
+    const {
+        employee,
+        isLoading,
+        setEmployee,
+        invoices,
+        bookings,
+        getWages,
+        getSalaries,
+    } = useSingleEmployeeContext();
     const { addToStack, removeLastFromStack } = useModalContext();
     const router = useRouter();
 
@@ -74,8 +89,21 @@ export default function Page({ params }: { params: { id: string } }) {
         );
     }, [employee]);
 
+    const Wage = () => {
+        return <EmployeeWagesTable wages={getWages()} />;
+    };
+
     const Salary = () => {
         return <EmployeeSalariesTable salaries={getSalaries()} />;
+    };
+
+    const changeAction = (data: CreateEmployeeWageType) => {
+        if (employee !== undefined && employee.ID !== undefined)
+            updateEmployeeWage(data, employee.ID).then((updatedEmployee) => {
+                getWages(true);
+                removeLastFromStack();
+                message.success("Updated employee wage");
+            });
     };
 
     return (
@@ -91,10 +119,13 @@ export default function Page({ params }: { params: { id: string } }) {
                         key="1"
                         type="primary"
                         onClick={() =>
-                            addToStack("Add customer", <EmployeeSalaryAddForm onSubmit={console.debug} />)
+                            addToStack(
+                                "Change employee wage",
+                                <EmployeeWageAddForm onSubmit={changeAction} />
+                            )
                         }
                     >
-                        Change salary
+                        Change wage
                     </Button>,
                 ]}
             />
@@ -106,13 +137,8 @@ export default function Page({ params }: { params: { id: string } }) {
                     onTabChange={setActiveTab}
                 >
                     {activeTab === "information" && Information}
+                    {activeTab === "wage" && Wage()}
                     {activeTab === "salary" && Salary()}
-                    {activeTab === "invoices" && (
-                        <EmployeeBookingsTable bookings={invoices} />
-                    )}
-                    {activeTab === "bookings" && (
-                        <EmployeeBookingsTable bookings={bookings} />
-                    )}
                 </Card>
             </Spin>
         </>

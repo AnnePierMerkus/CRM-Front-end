@@ -1,7 +1,17 @@
 export interface EmployeeSalaryType {
-    ID: string;
-    type: string;
+    id: number;
+    employeeId: number;
+    salary: number;
+    date: Date;
     amount: number;
-    activeFrom: string;
-    isActive: boolean;
+}
+
+
+export interface EmployeeSalaryMonthType {
+    employeeId?: string;
+    name?: string;
+    month: number;
+    year: number;
+    amount: number;
+    salaries: EmployeeSalaryType[];
 }

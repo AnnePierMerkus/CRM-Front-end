@@ -7,8 +7,6 @@ import { EmployeeBookingsTable } from '@/components/employees/Table/EmployeeBook
 import { useBookingHistoryContext } from '@/context/booking-history.context';
 import { InvoiceTable } from '@/components/invoice/InvoiceTable';
 
-const { TabPane } = Tabs;
-
 export default function Page() {
     const [activeTab, setActiveTab] = useState<string>("invoices");
 
