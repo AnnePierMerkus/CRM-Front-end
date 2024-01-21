@@ -23,13 +23,14 @@ export default function DashboardLayout({
 
     useEffect(() => {
         if (!authentication) {
-            init()
-                .then((r) => {
-                    setAuthenticated(true);
-                })
-                .catch(async (reason) => {
-                    router.push("/auth/login");
-                });
+            setAuthenticated(true);
+            // init()
+            //     .then((r) => {
+            //         setAuthenticated(true);
+            //     })
+            //     .catch(async (reason) => {
+            //         router.push("/auth/login");
+            //     });
         }
     }, []);
 
