@@ -14,7 +14,7 @@ export const EmployeeFormModal = () => {
             close={toggleShowFormModal}
         />
         <ModalBody>
-            <EmployeeAddForm />
+            <EmployeeAddForm onSubmit={console.debug} />
         </ModalBody>
     </Modal>
 }

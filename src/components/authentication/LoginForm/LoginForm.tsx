@@ -11,7 +11,9 @@ import styles from "./style.module.css"
 
 export function LoginForm() {
     const success = () => {
-        window.location.href = '/dashboard'
+        if (typeof window !== "undefined") {
+            window.location.href = '/dashboard'
+        }
     }
 
     const error = ({response}: { response: { data: { message: string } } }) => {

@@ -16,7 +16,9 @@ export function ResetPasswordForm({ token }: { token: string }) {
     resetPassword({ token: token, password: data.password })
       .then((response) => {
         message.success("Password reset");
-        window.location.href = "/auth/login";
+          if (typeof window !== "undefined") {
+              window.location.href = "/auth/login";
+          }
       })
       .catch(error);
   }

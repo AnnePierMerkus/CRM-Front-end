@@ -16,7 +16,9 @@ export function PasswordForgottenForm() {
     function onSubmit(data: {email: string}){
         forgotPassword(data).then(response => {
             message.success("Password reset email sent")
-            window.location.href = '/auth/login';
+            if (typeof window !== "undefined") {
+                window.location.href = '/auth/login';
+            }
         }).catch(error)
     }
 

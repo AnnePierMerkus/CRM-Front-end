@@ -4,6 +4,8 @@ import { removeToken } from "@/services/ApiService";
 
 export default function Page() {
     removeToken();
-    window.location.href = '/auth/login'
+    // if (typeof window !== "undefined" && typeof window.location !== "undefined") {
+    //     window.location.href = '/auth/login'
+    // }
     return null; 
 }

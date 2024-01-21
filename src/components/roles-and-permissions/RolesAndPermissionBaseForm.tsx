@@ -5,7 +5,6 @@ import {AutoForm} from "uniforms-antd";
 import {bridge as schema, RolesAndPermissionFormType} from './RolesAndPermissionBaseFormSchema';
 import {Form} from 'antd';
 import { DatePicker } from 'antd';
-import {MassageFormType} from "@/components/massage-types/MassageTypeCreateFormSchema";
 import {MassageType} from "@/types/massageType";
 import {RolesAndPermissionType} from "@/types/roles-and-permission-type";
 export const RolesAndPermissionBaseForm = ({

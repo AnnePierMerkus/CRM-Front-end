@@ -5,7 +5,6 @@ import DataTable from "@/components/general/DataTable/DataTable";
 import {RolesAndPermissionBaseForm} from "@/components/roles-and-permissions/RolesAndPermissionBaseForm";
 import {useModalContext} from "@/context/modal.context";
 import {useRolesAndPermissionContext} from "@/context/roles-and-permission.context";
-import {MassageFormType} from "@/components/massage-types/MassageTypeCreateFormSchema";
 import {
     createRolesAndPermission,
     deleteRolesandPermission,
@@ -14,7 +13,6 @@ import {
 } from "@/services/roles-and-permission/RolesAndPermissionService";
 import {RolesAndPermissionFormType} from "@/components/roles-and-permissions/RolesAndPermissionBaseFormSchema";
 import {Button, message} from "antd";
-import {MassageTypeBaseForm} from "@/components/massage-types/MassageTypeCreateForm";
 import {deleteMassageType} from "@/services/massage-types/MassageTypesService";
 
 export default function Page() {
